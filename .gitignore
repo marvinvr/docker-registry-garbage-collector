@@ -1,0 +1,11 @@
+.DS_Store
+bin/
+dist/
+registry-gc
+coverage.out
+*.test
+
+# Local env files may contain registry credentials.
+.env
+.env.*
+!.env.example

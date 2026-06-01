@@ -1,0 +1,26 @@
+services:
+  registry-gc:
+    build: .
+    image: docker-registry-garbage-collector:local
+    environment:
+      REGISTRY_URL: ${REGISTRY_URL}
+      CRON_SCHEDULE: ${CRON_SCHEDULE:-0 3 * * *}
+      THRESHOLD_DAYS: ${THRESHOLD_DAYS:-30}
+      MIN_IMAGES_KEEP: ${MIN_IMAGES_KEEP:-3}
+      PROTECTED_TAGS: ${PROTECTED_TAGS:-}
+      DRY_RUN: ${DRY_RUN:-false}
+      REPOSITORIES: ${REPOSITORIES:-}
+      PAGE_SIZE: ${PAGE_SIZE:-100}
+      RUN_ON_START: ${RUN_ON_START:-true}
+      RUN_ONCE: ${RUN_ONCE:-false}
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      RUN_GARBAGE_COLLECT: ${RUN_GARBAGE_COLLECT:-false}
+      REGISTRY_CONFIG_PATH: ${REGISTRY_CONFIG_PATH:-}
+      GARBAGE_COLLECT_DRY_RUN: ${GARBAGE_COLLECT_DRY_RUN:-}
+      GARBAGE_COLLECT_DELETE_UNTAGGED: ${GARBAGE_COLLECT_DELETE_UNTAGGED:-true}
+      REGISTRY_READ_ONLY: ${REGISTRY_READ_ONLY:-false}
+    volumes:
+      # Mount the registry config and backing storage when RUN_GARBAGE_COLLECT=true.
+      # - ./config.yml:/etc/docker/registry/config.yml:ro
+      # - /path/to/registry/storage:/var/lib/registry
+      - /Volumes/registry:/var/lib/registry:ro
